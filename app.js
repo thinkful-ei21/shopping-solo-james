@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-env jquery */
 
 // an array of shopping list items that we store in this variable
 const store = [
@@ -16,9 +17,9 @@ const store = [
   }
 ];
 
-function generateShoppingListString(item) {
+function generateShoppingListString(name) {
   return `<li>
-  <span class="shopping-item">${item.name}</span>
+  <span class="shopping-item">${name}</span>
   <div class="shopping-item-controls">
     <button class="shopping-item-toggle">
       <span class="button-label">check</span>
@@ -32,14 +33,27 @@ function generateShoppingListString(item) {
 
 // this function will be responsible for rendering the shopping list in the DOM
 function renderShoppingList(){
-  const listElements = store.map(item => generateShoppingListString(item));
+  const listElements = store.map(item => generateShoppingListString(item.name));
   $('.shopping-list').html(listElements);
-  // console.log('foo');
 }
 
 // this function will be responsible for when users add a new item
 function handleItemSubmit(){
-  // console.log('bar');
+  $('#js-shopping-list-form').submit(function(event) {
+    event.preventDefault();
+    
+    const shoppingItem = $('.js-shopping-list-entry').val();
+    console.log(shoppingItem);
+    
+		// const addedHtml = generateShoppingListString(shoppingItem);
+
+		// this 'if' statement prevents blank entries
+		// being appended
+		if (shoppingItem) {
+			$('ul.shopping-list').prepend(generateShoppingListString(shoppingItem));
+		}
+    $(event.target).trigger('reset'); // resets the form element to blank after submit
+  });
 }
 
 // this function will be responsible for when users click on the 'delete' button
