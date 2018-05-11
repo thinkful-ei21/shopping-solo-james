@@ -2,15 +2,23 @@
 
 // an array of shopping list items that we store in this variable
 const store = [
-  { name: 'Crash Bandicoot', checked: false },
-  { name: 'Tomb Raider', checked: false },
-  { name: 'Zelda', checked: false },
-  { name: 'Resident Evil', checked: false }
+  { name: 'apples',
+    checked: false 
+  },
+  { name: 'oranges', 
+    checked: false 
+  },
+  { name: 'bananas', 
+    checked: false
+  },
+  { name: 'milk', 
+    checked: false 
+  }
 ];
 
-function generateShoppingListString(shoppingList) {
+function generateShoppingListString(item) {
   return `<li>
-  <span class="shopping-item">${shoppingItem}</span>
+  <span class="shopping-item">${item.name}</span>
   <div class="shopping-item-controls">
     <button class="shopping-item-toggle">
       <span class="button-label">check</span>
@@ -24,9 +32,8 @@ function generateShoppingListString(shoppingList) {
 
 // this function will be responsible for rendering the shopping list in the DOM
 function renderShoppingList(){
-  const shoppingListItemString  = generateShoppingListString(store);
-
-  $('.shopping-list').html(shoppingListItemString);
+  const listElements = store.map(item => generateShoppingListString(item));
+  $('.shopping-list').html(listElements);
   // console.log('foo');
 }
 
