@@ -68,7 +68,7 @@ function handleItemSubmit(){
 function handleItemChecked(){
   // console.log('`handleItemChecked` ran');
   
-  $('.shopping-list').click('.shopping-item-toggle', function(event){
+  $('.shopping-list').on('click','.shopping-item-toggle', function(event){
     
     const itemIndex = $(event.target).closest('li').attr('data-item-index');
     
