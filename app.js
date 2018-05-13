@@ -2,24 +2,29 @@
 /* eslint-env jquery */
 
 // an array of shopping list items that we store in this variable
-const STORE = [
-  { name: 'apples',
-    checked: false 
-  },
-  { name: 'oranges', 
-    checked: false 
-  },
-  { name: 'bananas', 
-    checked: false
-  },
-  { name: 'milk', 
-    checked: false 
-  }
-];
+const STORE = {
+  items: [
+    { name: 'apples',
+      checked: false 
+    },
+    { name: 'oranges', 
+      checked: false 
+    },
+    { name: 'milk', 
+      checked: true
+    },
+    { name: 'bread', 
+      checked: false 
+    }]
+};
 
-function generateShoppingListString(name) {
-  return `<li>
-  <span class="shopping-item">${name}</span>
+function generateItemElement(item, index) {
+  let isChecked = '';
+  
+  if (item.checked === true) isChecked = 'shopping-item__checked'; 
+
+  return `<li data-item-index="${index}" class>
+  <span class="shopping-item ${isChecked}">${item.name}</span>
   <div class="shopping-item-controls">
     <button class="shopping-item-toggle">
       <span class="button-label">check</span>
@@ -31,9 +36,11 @@ function generateShoppingListString(name) {
 </li>`;
 }
 
+
+
 // this function will be responsible for rendering the shopping list in the DOM
 function renderShoppingList(){
-  const listElements = STORE.map(item => generateShoppingListString(item.name));
+  const listElements = STORE.items.map((item, index) => generateItemElement(item, index));
   const displayedItems = $('.shopping-list');
 
   displayedItems.html(listElements);
@@ -41,7 +48,7 @@ function renderShoppingList(){
 
 function pushNewItem(newItemName) {
   if (newItemName) {
-    STORE.push({name: newItemName, checked: false});
+    STORE.items.push({name: newItemName, checked: false});
   }
 }
 
@@ -57,14 +64,28 @@ function handleItemSubmit(){
   });
 }
 
-// this function will be responsible for when users click on the 'delete' button
-function handleItemDelete(){
-  // console.log('fizz');
-}
-
 // this function will be responsible for when users click on the 'check' button
 function handleItemChecked(){
-  // console.log('buzz');
+  // console.log('`handleItemChecked` ran');
+  
+  $('.shopping-list').click('.shopping-item-toggle', function(event){
+    
+    const itemIndex = $(event.target).closest('li').attr('data-item-index');
+    
+    toggleChecked(itemIndex);
+    renderShoppingList();
+  });
+}
+
+function toggleChecked(index) {
+
+  STORE.items[index].checked = !STORE.items[index].checked;
+}
+
+// this function will be responsible for when users click on the 'delete' button
+function handleItemDelete(){
+  // console.log('`handleItemDelete` ran' );
+  
 }
 
 // this function will be our callback when the page loads. it's responsible for
@@ -74,8 +95,8 @@ function handleItemChecked(){
 function handleShoppingList(){
   renderShoppingList();
   handleItemSubmit();
-  handleItemDelete();
   handleItemChecked();
+  handleItemDelete();
 }
 
 $(handleShoppingList);
