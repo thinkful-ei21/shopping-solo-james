@@ -2,7 +2,7 @@
 /* eslint-env jquery */
 
 // an array of shopping list items that we store in this variable
-const store = [
+const STORE = [
   { name: 'apples',
     checked: false 
   },
@@ -33,25 +33,26 @@ function generateShoppingListString(name) {
 
 // this function will be responsible for rendering the shopping list in the DOM
 function renderShoppingList(){
-  const listElements = store.map(item => generateShoppingListString(item.name));
-  $('.shopping-list').html(listElements);
+  const listElements = STORE.map(item => generateShoppingListString(item.name));
+  const displayedItems = $('.shopping-list');
+
+  displayedItems.html(listElements);
+}
+
+function pushNewItem(newItemName) {
+  if (newItemName) {
+    STORE.push({name: newItemName, checked: false});
+  }
 }
 
 // this function will be responsible for when users add a new item
 function handleItemSubmit(){
   $('#js-shopping-list-form').submit(function(event) {
     event.preventDefault();
-    
-    const shoppingItem = $('.js-shopping-list-entry').val();
-    console.log(shoppingItem);
-    
-		// const addedHtml = generateShoppingListString(shoppingItem);
+    const newItemName = $('.js-shopping-list-entry').val();
+    pushNewItem(newItemName);
 
-		// this 'if' statement prevents blank entries
-		// being appended
-		if (shoppingItem) {
-			$('ul.shopping-list').prepend(generateShoppingListString(shoppingItem));
-		}
+    renderShoppingList();
     $(event.target).trigger('reset'); // resets the form element to blank after submit
   });
 }
