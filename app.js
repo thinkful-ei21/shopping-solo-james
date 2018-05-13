@@ -11,7 +11,7 @@ const STORE = {
       checked: false 
     },
     { name: 'milk', 
-      checked: true
+      checked: false
     },
     { name: 'bread', 
       checked: false 
@@ -41,9 +41,11 @@ function generateItemElement(item, index) {
 // this function will be responsible for rendering the shopping list in the DOM
 function renderShoppingList(){
   const listElements = STORE.items.map((item, index) => generateItemElement(item, index));
-  const displayedItems = $('.shopping-list');
+  const shoppingList = $('.shopping-list');
 
-  displayedItems.html(listElements);
+  
+
+  shoppingList.html(listElements);
 }
 
 function pushNewItem(newItemName) {
