@@ -64,6 +64,12 @@ function handleItemSubmit(){
   });
 }
 
+function toggleChecked(index) {
+
+  STORE.items[index].checked = !STORE.items[index].checked;
+}
+
+
 // this function will be responsible for when users click on the 'check' button
 function handleItemChecked(){
   // console.log('`handleItemChecked` ran');
@@ -77,15 +83,17 @@ function handleItemChecked(){
   });
 }
 
-function toggleChecked(index) {
-
-  STORE.items[index].checked = !STORE.items[index].checked;
+function deleteItem(itemIndex) {
+  STORE.items.splice(itemIndex, 1);
 }
 
 // this function will be responsible for when users click on the 'delete' button
 function handleItemDelete(){
-  // console.log('`handleItemDelete` ran' );
-  
+  $('.shopping-list').on('click','.shopping-item-delete', function(event){
+    const itemIndex = $(event.target).closest('li').attr('data-item-index');
+    deleteItem(itemIndex);
+    renderShoppingList();
+  });
 }
 
 // this function will be our callback when the page loads. it's responsible for
